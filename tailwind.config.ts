@@ -11,6 +11,8 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        lime: "#98971A",
+        aqua: "#689D6A",
       },
     },
   },
