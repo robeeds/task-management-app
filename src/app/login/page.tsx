@@ -1,19 +1,46 @@
 import Image from "next/image"
 import login from "../../../public/login.svg"
 
-import { getLoggedInUser, logInUser } from "@/lib/server/appwrite"
-import { redirect } from "next/navigation";
+import { getLoggedInUser, createAdminClient } from "@/lib/server/appwrite"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
-export default async function Login() {
-  const user = await getLoggedInUser();
-  if (user) {
-    redirect("/dashboard");
+async function logInUser(formData: FormData) {
+  "use server";
+
+  const email = formData.get("email");
+  const password = formData.get("password");
+
+  if (typeof email !== 'string') {
+    throw new Error('Endpoint not defined');
   }
+  if (typeof password !== 'string') {
+      throw new Error('Project not defined')
+  }
+
+  const { account } = await createAdminClient();
+  const session  = await account.createEmailPasswordSession(email, password);
+
+  const nextCookies = await cookies();
+  nextCookies.set("my-custom-session", session.secret, {
+    path: "/",
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  });
+
+  redirect("/dashboard");
+}
+
+export default async function LoginPage() {
+  const user = await getLoggedInUser();
+  if(user) redirect("/dashboard");
 
   return (  
   <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen">
 
-    <form action={logInUser} className="flex flex-col gap-6 row-start-2 items-center sm:items-start bg-backgroundTwo p-10 rounded-[20px] md:min-w-[600px]">
+    <form action={logInUser}
+     className="flex flex-col gap-6 row-start-2 items-center sm:items-start bg-backgroundTwo p-10 rounded-[20px] md:min-w-[600px]">
 
       {/* Form Title */}
       <p className="self-center font-semibold text-[32px]">Login</p>
