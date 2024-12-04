@@ -8,7 +8,7 @@ async function logout() {
     const { account}  = await createSessionClient();
 
     const nextCookies = await cookies();
-    nextCookies.delete("my-custom-session");
+    nextCookies.delete("user-session");
     await account.deleteSession("current");
 
     redirect("/");

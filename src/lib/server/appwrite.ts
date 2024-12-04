@@ -22,7 +22,7 @@ export async function createSessionClient() {
     .setProject(project);
 
   const nextCookies = await cookies();
-  const session = await nextCookies.get("my-custom-session");
+  const session = await nextCookies.get("user-session");
   if (!session || !session.value) {
     throw new Error("No session");
   }

@@ -30,7 +30,7 @@ async function registerUser(formData: FormData) {
   const session  = await account.createEmailPasswordSession(email, password);
 
   const nextCookies = await cookies();
-  nextCookies.set("my-custom-session", session.secret, {
+  nextCookies.set("user-session", session.secret, {
     path: "/",
     httpOnly: true,
     sameSite: "strict",
