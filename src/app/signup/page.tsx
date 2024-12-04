@@ -1,14 +1,56 @@
 import Image from "next/image"
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import login from "../../../public/login.svg"
 
-import { signUpWithEmail } from "@/lib/server/appwrite"
+import { createAdminClient, getLoggedInUser } from "@/lib/server/appwrite";
+import { ID } from "node-appwrite";
 
-export default async function SignUp() {
+
+async function registerUser(formData: FormData) {
+  "use server";
+
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const name = formData.get("username");
+
+  if (typeof email !== 'string') {
+    throw new Error('Please use a valid string');
+  }
+  if (typeof password !== 'string') {
+    throw new Error('Please use a valid string');
+  }
+  if (typeof name !== 'string') {
+    throw new Error('Please use a valid string');
+  }
+
+  const { account } = await createAdminClient();
+
+  await account.create(ID.unique(), email, password, name);
+  const session  = await account.createEmailPasswordSession(email, password);
+
+  const nextCookies = await cookies();
+  nextCookies.set("my-custom-session", session.secret, {
+    path: "/",
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  });
+
+  redirect("/dashboard");
+}
+
+
+export default async function SignUpPage() {
+  const user = await getLoggedInUser();
+  if (user) redirect('/dashboard');
+
 
   return (  
   <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen">
 
-    <form action={signUpWithEmail} className="flex flex-col gap-6 row-start-2 items-center sm:items-start bg-backgroundTwo p-10 rounded-[20px] md:min-w-[600px]">
+    <form action={registerUser} 
+    className="flex flex-col gap-6 row-start-2 items-center sm:items-start bg-backgroundTwo p-10 rounded-[20px] md:min-w-[600px]">
 
       {/* Form Title */}
       <p className="self-center font-semibold text-[32px]">Sign Up</p>
