@@ -1,6 +1,7 @@
 "use server";
 import { Client, Account, AppwriteException } from "node-appwrite";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 // Environmental Variables
 const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT;
@@ -105,6 +106,7 @@ export async function logOutUser() {
   const nextCookies = await cookies();
   nextCookies.delete("user-session");
   await account.deleteSession("current");
+  redirect('/login');
 
   return "Logout Successful";
 }
