@@ -1,28 +1,19 @@
-import { createSessionClient, getLoggedInUser } from "@/lib/server/appwrite";
-import { cookies } from "next/headers";
+// User Interface Components
+import SideNav from "@/ui/dashboard/sidenav";
+
+import { getLoggedInUser } from "@/lib/server/appwrite";
 import { redirect } from "next/navigation";
 
-async function logout() {
-    "use server";
-
-    const { account}  = await createSessionClient();
-
-    const nextCookies = await cookies();
-    nextCookies.delete("user-session");
-    await account.deleteSession("current");
-
-    redirect("/");
-}
-
 export default async function Dashboard() {
-    const user = await getLoggedInUser();
-    if (!user) redirect('/login');
 
     return(
-        <div>
-           <p>Dashboard: Logged in as {user.name}</p>
-            <button onClick={logout}
-            >Logout</button>
+        <div className="flex flex-1 h-screen p-8">
+
+            <div className="flex flex-1 h-full max-w-[330px]">
+                <SideNav/>
+            </div>
+            
+            <div className="flex flex-1">Task Section</div>
         </div>
     )
 }
