@@ -42,9 +42,6 @@ async function registerUser(formData: FormData) {
 
 
 export default async function SignUpPage() {
-  const user = await getLoggedInUser();
-  if (user) redirect('/dashboard');
-
 
   return (  
   <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen">
