@@ -1,5 +1,5 @@
 "use server";
-import { Client, Account } from "node-appwrite";
+import { Client, Account, AppwriteException } from "node-appwrite";
 import { cookies } from "next/headers";
 
 // Environmental Variables
@@ -73,4 +73,38 @@ export async function getLoggedInUser() {
   }
 }
 
+// Log in the user
+export async function logInUser(email: string, password: string) {
+  'use server';
 
+  const { account } = await createAdminClient();
+
+  try {
+    const session = await account.createEmailPasswordSession(email, password);
+
+    const nextCookies = await cookies();
+    nextCookies.set("user-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+    });
+
+    return "Login Successful";
+
+  } catch (error) {
+    if (error instanceof AppwriteException) {
+      return error.type;
+    }
+  }
+}
+
+export async function logOutUser() {
+  const { account}  = await createSessionClient();
+
+  const nextCookies = await cookies();
+  nextCookies.delete("user-session");
+  await account.deleteSession("current");
+
+  return "Logout Successful";
+}
