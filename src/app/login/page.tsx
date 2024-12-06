@@ -1,45 +1,67 @@
+'use client'
+
 import Image from "next/image"
 import login from "../../../public/login.svg"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
-import { getLoggedInUser, createAdminClient } from "@/lib/server/appwrite"
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+export default function LoginPage() {
+  const [ error, setError ] = useState<string | null>(null); // State to hold the error message
+  const router = useRouter();
 
-async function logInUser(formData: FormData) {
-  "use server";
+  // Check if the user is already logged in
+  {/*useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const res = await fetch('/api/check-session'); // Make a request to check login status
 
-  const email = formData.get("email");
-  const password = formData.get("password");
+        if (res.status == 200) {
+          // If user is logged in, redirect to dashboard
+          router.push('/dashboard');
+        } else {
+          // If user is not logged in, redirect to login
+          router.push('/login')
+        }
+      } catch (err) {
+        console.error("Failed to check login status", err);
+      }
+    };
 
-  if (typeof email !== 'string') {
-    throw new Error('Endpoint not defined');
-  }
-  if (typeof password !== 'string') {
-      throw new Error('Project not defined')
-  }
+    checkLoginStatus();
+  }, [router]);
+  */}
 
-  const { account } = await createAdminClient();
-  const session  = await account.createEmailPasswordSession(email, password);
 
-  const nextCookies = await cookies();
-  nextCookies.set("user-session", session.secret, {
-    path: "/",
-    httpOnly: true,
-    sameSite: "strict",
-    secure: true,
-  });
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent default form submission
+    setError(null); // Reset error message
 
-  redirect("/dashboard");
-}
+    const formData = new FormData(event.currentTarget); // Gathers current form data
 
-export default async function LoginPage() {
-  const user = await getLoggedInUser();
-  if(user) redirect("/dashboard");
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      // If login is successful, redirect is handled by the API
+      if (res.status == 200) {
+        router.push('/dashboard');
+      } else {
+        setError(data.error);
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    }
+  };  
 
   return (  
   <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen">
 
-    <form action={logInUser}
+    <form onSubmit={handleSubmit}
      className="flex flex-col gap-6 row-start-2 items-center sm:items-start bg-backgroundTwo p-10 rounded-[20px] md:min-w-[600px]">
 
       {/* Form Title */}
@@ -50,15 +72,21 @@ export default async function LoginPage() {
       {/* This will be the Username Field */}
       <div className="flex flex-1 flex-col w-full gap-1">
         <p className="font-medium">Email</p>
-        <input type="email" id="email" name="email" autoComplete="true" className="bg-background p-2 rounded-[10px]"/>
+        <input type="email" id="email" name="email" autoComplete="true" required className="bg-background p-2 rounded-[10px]"/>
       </div>
       
-
       {/* This will be the Password Field */}
       <div className="flex flex-1 flex-col w-full gap-1">
         <p className="font-medium">Password</p>
-        <input type="password" id="password" name="password" autoComplete="true" className="bg-background p-2 rounded-[10px]"/>
+        <input type="password" id="password" name="password" autoComplete="true" required className="bg-background p-2 rounded-[10px]"/>
       </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="text-red-500">
+          {error}
+        </div>
+      )}
 
       {/* This will be the login button */}
       <button
