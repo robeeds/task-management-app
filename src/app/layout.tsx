@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${firaCode.className} antialiased`}
+        className={`h-screen ${firaCode.className} antialiased`}
       >
         {children}
       </body>
