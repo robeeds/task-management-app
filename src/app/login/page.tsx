@@ -3,34 +3,11 @@
 import Image from "next/image"
 import login from "../../../public/login.svg"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 export default function LoginPage() {
   const [ error, setError ] = useState<string | null>(null); // State to hold the error message
   const router = useRouter();
-
-  // Check if the user is already logged in
-  {/*useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const res = await fetch('/api/check-session'); // Make a request to check login status
-
-        if (res.status == 200) {
-          // If user is logged in, redirect to dashboard
-          router.push('/dashboard');
-        } else {
-          // If user is not logged in, redirect to login
-          router.push('/login')
-        }
-      } catch (err) {
-        console.error("Failed to check login status", err);
-      }
-    };
-
-    checkLoginStatus();
-  }, [router]);
-  */}
-
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission
