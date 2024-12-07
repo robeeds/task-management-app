@@ -61,7 +61,7 @@ export default function SignUpPage() {
             id="username"
             name="username"
             type="username"
-            placeholder="Barack Obama"
+            placeholder="Firstname Lastname"
             required
             className="bg-background p-2 rounded-[10px]"
           />
@@ -74,6 +74,7 @@ export default function SignUpPage() {
             id="email"
             name="email"
             type="email"
+            placeholder="example@email.com"
             autoComplete="true"
             required
             className="bg-background p-2 rounded-[10px]"
