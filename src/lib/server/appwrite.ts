@@ -1,5 +1,5 @@
 "use server";
-import { Client, Account, AppwriteException } from "node-appwrite";
+import { Client, Account, ID, AppwriteException } from "node-appwrite";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -76,7 +76,6 @@ export async function getLoggedInUser() {
 
 // Log in the user
 export async function logInUser(email: string, password: string) {
-  'use server';
 
   const { account } = await createAdminClient();
 
@@ -100,13 +99,27 @@ export async function logInUser(email: string, password: string) {
   }
 }
 
+
+// register a new user
+export async function registerUser(email: string, password: string, name: string) {
+
+  const { account } = await createAdminClient();
+
+  try {
+    await account.create(ID.unique(), email, password, name);
+    await logInUser(email, password);
+  } catch (error) {
+    if (error instanceof AppwriteException) {
+      return error;
+    }
+  }
+}
+
 export async function logOutUser() {
   const { account}  = await createSessionClient();
 
   const nextCookies = await cookies();
   nextCookies.delete("user-session");
   await account.deleteSession("current");
-  redirect('/login');
-
-  return "Logout Successful";
+  redirect('/login')
 }

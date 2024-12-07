@@ -1,52 +1,47 @@
+'use client';
+
 import Image from "next/image"
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import login from "../../../public/login.svg"
 
-import { createAdminClient, getLoggedInUser } from "@/lib/server/appwrite";
-import { ID } from "node-appwrite";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 
-async function registerUser(formData: FormData) {
-  "use server";
+export default function SignUpPage() {
+  const [ error, setError ] = useState<string | null>(null); // State to hold the error message
+  const router = useRouter();
 
-  const email = formData.get("email");
-  const password = formData.get("password");
-  const name = formData.get("username");
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent default form submission
+    setError(null); // Reset error message
 
-  if (typeof email !== 'string') {
-    throw new Error('Please use a valid string');
-  }
-  if (typeof password !== 'string') {
-    throw new Error('Please use a valid string');
-  }
-  if (typeof name !== 'string') {
-    throw new Error('Please use a valid string');
-  }
+    const formData = new FormData(event.currentTarget); // Gathers current form data
 
-  const { account } = await createAdminClient();
+    try {
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        body: formData,
+      });
 
-  await account.create(ID.unique(), email, password, name);
-  const session  = await account.createEmailPasswordSession(email, password);
+      const data = await res.json();
 
-  const nextCookies = await cookies();
-  nextCookies.set("user-session", session.secret, {
-    path: "/",
-    httpOnly: true,
-    sameSite: "strict",
-    secure: true,
-  });
-
-  redirect("/dashboard");
-}
-
-
-export default async function SignUpPage() {
+      // If login is successful, redirect is handled by the API
+      if (res.status == 200) {
+        router.push('/dashboard');
+      } else if (res.status == 409) {
+        setError("A user already exists with that email")
+      } else {
+        setError(data.message);
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    }
+  };  
 
   return (  
   <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen">
 
-    <form action={registerUser} 
+    <form onSubmit={handleSubmit} 
     className="flex flex-col gap-6 row-start-2 items-center sm:items-start bg-backgroundTwo p-10 rounded-[20px] md:min-w-[600px]">
 
       {/* Form Title */}
@@ -56,14 +51,14 @@ export default async function SignUpPage() {
       
       {/* This will be the Username Field */}
       <div className="flex flex-1 flex-col w-full gap-1">
-        <p className="font-medium">Username</p>
-        <input id="username" name="username" type="username" className="bg-background p-2 rounded-[10px]"/>
+        <p className="font-medium">Name</p>
+        <input id="name" name="name" type="name" placeholder="First Last" className="bg-background p-2 rounded-[10px]"/>
       </div>
 
       {/* This will be the Email Field */}
       <div className="flex flex-1 flex-col w-full gap-1">
         <p className="font-medium">Email</p>
-        <input id="email" name="email" type="email" autoComplete="true" className="bg-background p-2 rounded-[10px]"/>
+        <input id="email" name="email" type="email" placeholder="example@email.com" autoComplete="true" className="bg-background p-2 rounded-[10px]"/>
       </div>
       
 
@@ -78,6 +73,13 @@ export default async function SignUpPage() {
         <p className="font-medium">Confirm Password</p>
         <input id="confirmPass" name="confirmPass" type="password" className="bg-background p-2 rounded-[10px]"/>
       </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="text-red-500">
+          {error}
+        </div>
+      )}
 
       {/* This will be the login button */}
       <button
