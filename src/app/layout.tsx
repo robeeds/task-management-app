@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Fira_Code } from "next/font/google"
+import { Fira_Code } from "next/font/google";
 import "./globals.css";
 
 const firaCode = Fira_Code({
-  weight: ['400', '500', '600'],
-  subsets: ['latin'],
-})
-
+  weight: ["400", "500", "600"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Taskman - A Task Management App",
@@ -20,9 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`h-screen ${firaCode.className} antialiased`}
-      >
+      <body className={`h-screen ${firaCode.className} antialiased`}>
         {children}
       </body>
     </html>

@@ -5,15 +5,13 @@ import { getLoggedInUser } from "@/lib/server/appwrite";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
+  return (
+    <div className="flex flex-1 h-screen p-8">
+      <div className="flex flex-1 h-full max-w-[330px]">
+        <SideNav />
+      </div>
 
-    return(
-        <div className="flex flex-1 h-screen p-8">
-
-            <div className="flex flex-1 h-full max-w-[330px]">
-                <SideNav/>
-            </div>
-            
-            <div className="flex flex-1">Task Section</div>
-        </div>
-    )
+      <div className="flex flex-1">Task Section</div>
+    </div>
+  );
 }

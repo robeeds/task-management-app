@@ -15,8 +15,7 @@ const config: Config = {
         foregroundTwo: "#A89984",
         lime: "#98971A",
         aqua: "#689D6A",
-        blue: "#458588"
-        
+        blue: "#458588",
       },
     },
   },

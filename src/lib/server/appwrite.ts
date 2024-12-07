@@ -11,16 +11,14 @@ const key = process.env.NEXT_APPWRITE_KEY;
 // Creates end user session client
 export async function createSessionClient() {
   if (!endpoint) {
-      throw new Error('Endpoint not defined');
+    throw new Error("Endpoint not defined");
   }
 
   if (!project) {
-      throw new Error('Project not defined')
+    throw new Error("Project not defined");
   }
 
-  const client = new Client()
-    .setEndpoint(endpoint)
-    .setProject(project);
+  const client = new Client().setEndpoint(endpoint).setProject(project);
 
   const nextCookies = await cookies();
   const session = await nextCookies.get("user-session");
@@ -39,18 +37,17 @@ export async function createSessionClient() {
 
 // Creates admin user session client
 export async function createAdminClient() {
-    if (!endpoint) {
-        throw new Error('Endpoint not defined');
-    }
+  if (!endpoint) {
+    throw new Error("Endpoint not defined");
+  }
 
-    if (!project) {
-        throw new Error('Project not defined')
-    }
+  if (!project) {
+    throw new Error("Project not defined");
+  }
 
-    if (!key) {
-        throw new Error('Key not defined')
-    }
-
+  if (!key) {
+    throw new Error("Key not defined");
+  }
 
   const client = new Client()
     .setEndpoint(endpoint)
@@ -74,9 +71,26 @@ export async function getLoggedInUser() {
   }
 }
 
+export async function registerUser(
+  email: string,
+  password: string,
+  name: string,
+) {
+  const { account } = await createAdminClient();
+
+  await account.create(ID.unique(), email, password, name);
+
+  try {
+    const session = await logInUser(email, password);
+  } catch (error) {
+    if (error instanceof AppwriteException) {
+      return error.message;
+    }
+  }
+}
+
 // Log in the user
 export async function logInUser(email: string, password: string) {
-
   const { account } = await createAdminClient();
 
   try {
@@ -91,7 +105,6 @@ export async function logInUser(email: string, password: string) {
     });
 
     return "Login Successful";
-
   } catch (error) {
     if (error instanceof AppwriteException) {
       return error.type;
@@ -99,27 +112,12 @@ export async function logInUser(email: string, password: string) {
   }
 }
 
-
-// register a new user
-export async function registerUser(email: string, password: string, name: string) {
-
-  const { account } = await createAdminClient();
-
-  try {
-    await account.create(ID.unique(), email, password, name);
-    await logInUser(email, password);
-  } catch (error) {
-    if (error instanceof AppwriteException) {
-      return error;
-    }
-  }
-}
-
+// Logout User
 export async function logOutUser() {
-  const { account}  = await createSessionClient();
+  const { account } = await createSessionClient();
 
   const nextCookies = await cookies();
   nextCookies.delete("user-session");
   await account.deleteSession("current");
-  redirect('/login')
+  redirect("/login");
 }
