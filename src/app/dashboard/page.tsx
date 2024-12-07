@@ -1,9 +1,6 @@
 // User Interface Components
 import SideNav from "@/ui/dashboard/sidenav";
 
-import { getLoggedInUser } from "@/lib/server/appwrite";
-import { redirect } from "next/navigation";
-
 export default async function Dashboard() {
   return (
     <div className="flex flex-1 h-screen p-8">
