@@ -67,6 +67,8 @@ export async function getLoggedInUser() {
     const { account } = await createSessionClient();
     return await account.get();
   } catch (error) {
+
+    console.log("appwrite.ts getLoggedInUser()", error);
     return null;
   }
 }

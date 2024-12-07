@@ -39,6 +39,10 @@ export default function SignUpPage() {
           setError(data.error);
         }
       } catch (err) {
+
+        // Debugging
+        console.log("/signup", err);
+
         setError("Something went wrong. Please try again.");
       }
     }
