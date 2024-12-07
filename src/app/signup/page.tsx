@@ -23,7 +23,7 @@ export default function SignUpPage() {
       setError("Passwords do not match");
     } else {
       try {
-        const res = await fetch("/api/register", {
+        const res = await fetch("/api/signup", {
           method: "POST",
           body: formData,
         });
@@ -33,11 +33,13 @@ export default function SignUpPage() {
         // If login is successful, redirect is handled by the API
         if (res.status == 200) {
           router.push("/dashboard");
+        } else if (res.status == 409) {
+          setError("A user already exists with that email")
         } else {
           setError(data.error);
         }
       } catch (err) {
-        setError("Its catching this");
+        setError("Something went wrong. Please try again.");
       }
     }
   };
@@ -59,6 +61,7 @@ export default function SignUpPage() {
             id="username"
             name="username"
             type="username"
+            placeholder="Barack Obama"
             required
             className="bg-background p-2 rounded-[10px]"
           />
