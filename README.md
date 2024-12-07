@@ -18,7 +18,7 @@ Task management app made using Appwrite, Next.js, TailwindCSS, Framer.
 2. Generate a Next.js 15 template with npm
 3. Implement Framer Motion for basic animations
 4. Create reusable styling components with Tailwind
-5. 
+5. Incorporate Appwrite API for CRUD functions
 6. Deploy site using Vercel
 
 ### Solution
@@ -35,6 +35,16 @@ Task management app made using Appwrite, Next.js, TailwindCSS, Framer.
 | <img src="https://github.com/devicons/devicon/blob/master/icons/vercel/vercel-original.svg" alt="Vercel" height="32" width="32"/> | Deployment |
 
 ## Project Preview
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/a6a2ce33-5964-4dab-b173-c96ce65e4fa7">
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/7b4dc4f6-21c2-4033-be20-ede7e4b67340">
+
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/a5ca5208-1f10-4e40-a020-76599c550eca">
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/8b36d9df-ef3e-4f79-ac75-04c6f58a395e">
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/73957e81-c8bc-4da7-afd2-7fb249577040">
+
+
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/d8d59011-c78d-4030-a1fb-78bf4cff5fc0">
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/36ae51dd-54e6-4dd2-a66e-2bd66f67af2d">
 
 
 ## Author
