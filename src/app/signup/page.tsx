@@ -58,9 +58,9 @@ export default function SignUpPage() {
         <p className="self-center font-semibold text-[32px]">Sign Up</p>
         <hr className="flex flex-1 w-full border-foreground rounded-full" />
 
-        {/* This will be the Username Field */}
+        {/* This will be the Name Field */}
         <div className="flex flex-1 flex-col w-full gap-1">
-          <p className="font-medium">Username</p>
+          <p className="font-medium">Name</p>
           <input
             id="username"
             name="username"
