@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 // User Interface Components
 import SideNav from "@/ui/dashboard/sidenav";
 
