@@ -15,10 +15,10 @@ const links = [
   { name: "All tasks", href: "/dashboard", icon: homeIcon },
   {
     name: "Important",
-    href: "/important",
+    href: "/dashboard/important",
     icon: starIcon,
   },
-  { name: "Completed", href: "/completed", icon: checkIcon },
+  { name: "Completed", href: "/dashboard/completed", icon: checkIcon },
 ];
 
 export default function NavLinks() {

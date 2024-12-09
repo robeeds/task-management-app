@@ -15,7 +15,7 @@ export default async function SideNav() {
     <div className="flex flex-1 flex-col h-full">
 
       {/* This will be the username section */}
-      <div className="flex flex-1 bg-backgroundTwo rounded-[10px]">
+      <div className="flex bg-backgroundTwo rounded-[10px]">
         <p className="flex flex-col p-4 text-wrap">
           Logged in as: <br/> 
           <strong>{user?.name}</strong>
@@ -28,10 +28,10 @@ export default async function SideNav() {
       </div>
 
       {/* This will be the links section */}
-      <div className="flex flex-col h-full bg-backgroundTwo p-4 rounded-[10px]">
+      <div className="flex flex-1 flex-col bg-backgroundTwo p-4 rounded-[10px]">
 
         {/* User Navigation Links */}
-        <div className="flex flex-1">
+        <div className="flex flex-1 h-full">
           <NavLinks />
         </div>
 
