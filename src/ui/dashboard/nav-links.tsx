@@ -25,21 +25,26 @@ export default function NavLinks() {
   const pathname = usePathname();
 
   return (
-    <>
+    <div className="">
       {links.map((link) => {
         return (
           <Link
             key={link.name}
             href={link.href}
-            className={clsx("flex grow items-center justify-center gap-2 ", {
+            className={clsx("flex flex-1 items-center justify-center", {
               "bg-sky-100 text-blue-600": pathname === link.href,
             })}
           >
-            <Image src={link.icon} alt="icon" />
-            <p className="hidden md:block">{link.name}</p>
+            <Image 
+              src={link.icon} 
+              alt={link.name}
+              width={32}
+              height={32}
+            />
+            <p className="p-2">{link.name}</p>
           </Link>
         );
       })}
-    </>
+    </div>
   );
 }

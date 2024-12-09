@@ -13,6 +13,7 @@ const config: Config = {
         backgroundTwo: "#32302f",
         foreground: "var(--foreground)",
         foregroundTwo: "#A89984",
+        shade: "#1D2021",
         lime: "#98971A",
         aqua: "#689D6A",
         blue: "#458588",
