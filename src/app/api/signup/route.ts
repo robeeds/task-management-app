@@ -13,8 +13,8 @@ export async function POST(request: Request) {
   try {
     const session = await registerUser(email, password, name);
     return NextResponse.json(
-      { message: session?.message },
-      { status: session?.code },
+      { message: session },
+      { status: 200 },
     );
   } catch (error) {
     if (error instanceof AppwriteException) {

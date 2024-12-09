@@ -32,6 +32,9 @@ export default function LoginPage() {
         setError(data.error);
       }
     } catch (err) {
+
+      // Debugging
+      console.log("/login", err);
       setError("Something went wrong. Please try again.");
     }
   };
@@ -91,7 +94,7 @@ export default function LoginPage() {
         </motion.button>
 
         <p className="self-center text-foregroundTwo">
-          Don't have an account? Sign up{" "}
+          Don&apos;t have an account? Sign up{" "}
           <a href="/signup" className="text-blue underline">
             here
           </a>

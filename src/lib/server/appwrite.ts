@@ -67,10 +67,14 @@ export async function getLoggedInUser() {
     const { account } = await createSessionClient();
     return await account.get();
   } catch (error) {
+
+    console.log("appwrite.ts getLoggedInUser()", error);
     return null;
   }
 }
 
+
+// Register the User
 export async function registerUser(
   email: string,
   password: string,
@@ -82,6 +86,7 @@ export async function registerUser(
 
   try {
     const session = await logInUser(email, password);
+    return session;
   } catch (error) {
     if (error instanceof AppwriteException) {
       return error.message;
