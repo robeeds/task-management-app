@@ -36,14 +36,16 @@ export default async function SideNav() {
         </div>
 
         {/* This will be the logout button */}
-        <div className="flex flex-row">
-          <Image
-            src={logoutIcon}
-            alt="logout icon"
-            width={32}
-            height={32}
-          />
-          <button className="p-2" onClick={logOutUser}>Logout</button>
+        <div className="flex">
+          <button className="flex flex-row items-center justify-center" onClick={logOutUser}>
+            <Image
+              src={logoutIcon}
+              alt="logout icon"
+              width={32}
+              height={32}
+            />
+            <p className="flex flex-1 p-2">Logout</p>
+          </button>
         </div>
         
 
