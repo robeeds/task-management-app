@@ -1,13 +1,12 @@
 // Next Imports
 import Image from "next/image";
 
-
 // Appwrite Functions
 import { getLoggedInUser, logOutUser } from "@/lib/server/appwrite";
 
 // Component Imports
 import NavLinks from "./nav-links";
-import logoutIcon from "../../../public/logout.svg"
+import logoutIcon from "../../../../public/logout.svg"
 
 export default async function SideNav() {
   const user = await getLoggedInUser();

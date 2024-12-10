@@ -1,9 +1,9 @@
 "use client";
 
 // Icons
-import homeIcon from "../../../public/home.svg";
-import checkIcon from "../../../public/check.svg";
-import starIcon from "../../../public/star.svg";
+import homeIcon from "../../../../public/home.svg";
+import checkIcon from "../../../../public/check.svg";
+import starIcon from "../../../../public/star.svg";
 
 // Nextjs Imports
 import Link from "next/link";
