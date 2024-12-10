@@ -28,15 +28,15 @@ export default async function SideNav() {
       </div>
 
       {/* This will be the links section */}
-      <div className="flex flex-1 flex-col bg-backgroundTwo p-4 rounded-[10px]">
+      <div className="flex flex-1 flex-col bg-backgroundTwo rounded-[10px]">
 
         {/* User Navigation Links */}
-        <div className="flex flex-1 h-full">
+        <div className="flex flex-1 h-full w-full">
           <NavLinks />
         </div>
 
         {/* This will be the logout button */}
-        <div className="flex">
+        <div className="flex p-4">
           <button className="flex flex-row items-center justify-center" onClick={logOutUser}>
             <Image
               src={logoutIcon}

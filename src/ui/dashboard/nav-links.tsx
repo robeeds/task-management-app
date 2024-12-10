@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 const links = [
-  { name: "All tasks", href: "/dashboard", icon: homeIcon },
+  { name: "All Tasks", href: "/dashboard", icon: homeIcon },
   {
     name: "Important",
     href: "/dashboard/important",
@@ -25,18 +25,18 @@ export default function NavLinks() {
   const pathname = usePathname();
 
   return (
-    <div className="">
+    <div className="flex flex-1 flex-col p-2">
       {links.map((link) => {
         return (
           <Link
             key={link.name}
             href={link.href}
-            className={clsx("flex flex-1 items-center justify-center", {
-              "bg-sky-100 text-blue-600": pathname === link.href,
+            className={clsx("flex items-center px-2", {
+              "text-aqua": pathname === link.href,
             })}
           >
-            <Image 
-              src={link.icon} 
+            <Image
+              src={link.icon}
               alt={link.name}
               width={32}
               height={32}
