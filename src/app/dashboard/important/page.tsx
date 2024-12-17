@@ -1,6 +1,6 @@
 export default function Page() {
   return (
-    <div className="flex flex-1 flex-col h-screen w-full bg-background ml-4 p-4">
+    <div className="flex flex-1 flex-col w-full h-full bg-background p-4">
       
       {/* Title */}
       <div className="flex pl-1 pt-4 pb-5">

@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-1">
+    <div className="flex flex-1 h-full ">
 
       {/* Side navigation  */}
       <div className="flex flex-1 max-w-[330px] bg-background p-4">
@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Task Section */}
-      <div className="flex flex-1 bg-shade">{children}</div>
+      <div className="flex flex-1 items-center justify-center bg-shade pl-4">{children}</div>
 
     </div>
   );
