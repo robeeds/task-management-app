@@ -1,12 +1,13 @@
 "use server";
+
 import { Client, Account, ID, AppwriteException } from "node-appwrite";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 // Environmental Variables
-const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT;
-const project = process.env.NEXT_PUBLIC_APPWRITE_PROJECT;
-const key = process.env.NEXT_APPWRITE_KEY;
+const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT as string;
+const project = process.env.NEXT_PUBLIC_APPWRITE_PROJECT as string;
+const key = process.env.NEXT_APPWRITE_KEY as string;
 
 // Creates end user session client
 export async function createSessionClient() {
@@ -73,7 +74,6 @@ export async function getLoggedInUser() {
   }
 }
 
-
 // Register the User
 export async function registerUser(
   email: string,
@@ -125,4 +125,38 @@ export async function logOutUser() {
   nextCookies.delete("user-session");
   await account.deleteSession("current");
   redirect("/login");
+}
+
+// Sends the verification email
+export async function verifyEmail() {
+  const { account } = await createSessionClient();
+
+  // Uses userId and secret params
+  const promise = account.createVerification('https://taskman-tau.vercel.app/dashboard');
+
+  console.log("appwrite.ts", promise)
+
+  promise.then(function (response) {
+    console.log("Success!", response);
+  }, function (error) {
+    console.log("Failure", error);
+  })
+}
+
+// Updates the verification status of the user
+export async function updateVerifyStatus() {
+
+  const { account } = await createSessionClient();
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const secret = urlParams.get('secret') as string;
+  const userID = urlParams.get('userId') as string;
+
+  const promise = account.updateVerification(userID, secret);
+
+  promise.then(function (response) {
+    console.log("appwrite.ts Successfully verified user", response);
+  }, function (error) {
+    console.log("appwrite.ts Failed to verify user", error);
+  })
 }
