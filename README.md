@@ -49,7 +49,7 @@ Task management app made using Appwrite, Next.js, TailwindCSS, Framer.
 
 ## Author
 
-- Website - [Robee D.](https://www.robeeds.tech)
+- Website - [Robee D.](https://www.robeeds.dev)
 
 ## Credits
 
