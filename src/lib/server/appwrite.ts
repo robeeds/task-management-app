@@ -136,7 +136,7 @@ export async function sendVerifyEmail() {
   const { account } = await createSessionClient();
 
   // Uses userId and secret params
-  const promise = account.createVerification('http://taskman-tau.vercel.app:3000/verify');
+  const promise = account.createVerification('https://taskman-tau.vercel.app/verify');
 
   promise.then(function (response) {
     console.log("Successfully sent a verification email", response);
