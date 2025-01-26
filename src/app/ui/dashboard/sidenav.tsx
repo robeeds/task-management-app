@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 // Appwrite Functions
-import { getLoggedInUser, logOutUser, verifyEmail } from "@/lib/server/appwrite";
+import { getLoggedInUser, logOutUser, sendVerifyEmail, getEmailVerificationStatus } from "@/lib/server/appwrite";
 
 // Component Imports
 import NavLinks from "./nav-links";
@@ -10,6 +10,8 @@ import logoutIcon from "../../../../public/logout.svg"
 
 export default async function SideNav() {
   const user = await getLoggedInUser();
+  const emailVerificationStatus = await getEmailVerificationStatus();
+
   return (
     <div className="flex flex-1 flex-col h-full">
 
@@ -21,9 +23,23 @@ export default async function SideNav() {
         </p>
 
         {/* Verification Status: If the user is not verified on the Appwrite Backend, then it'll send an email */}
-        <p className="flex p-4">Status:</p>
-        <button onClick={verifyEmail}>Verify Email</button>
-        <p></p>
+        <div className="flex flex-1 flex-row items-center">
+          <p className="flex p-4">Status:</p>
+          <div className="flex">
+            {emailVerificationStatus ? 
+              <p className="text-lime">Verified!</p>
+              : 
+              <div className="flex flex-nowrap">
+
+                {/* The button sends a verification email. Probably going to adjust this in the future to be easier to understand */}
+                <button onClick={sendVerifyEmail} className="flex text-left">
+                  <a className="text-red-500 hover:underline">Check Email for Verification</a>
+                </button>
+              </div>
+            }
+          </div>
+          
+        </div>
 
       </div>
       
