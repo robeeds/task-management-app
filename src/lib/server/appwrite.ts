@@ -3,6 +3,7 @@
 import { Client, Account, ID, AppwriteException } from "node-appwrite";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 
 // Environmental Variables
 const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT as string;
@@ -68,7 +69,9 @@ export async function getLoggedInUser() {
     const { account } = await createSessionClient();
     return await account.get();
   } catch (error) {
-
+    if (error instanceof AppwriteException && error.code == 401) {
+      return null;
+    }
     console.log("appwrite.ts getLoggedInUser()", error);
     return null;
   }
@@ -86,6 +89,7 @@ export async function registerUser(
 
   try {
     const session = await logInUser(email, password);
+    sendVerifyEmail();
     return session;
   } catch (error) {
     if (error instanceof AppwriteException) {
@@ -128,35 +132,70 @@ export async function logOutUser() {
 }
 
 // Sends the verification email
-export async function verifyEmail() {
+export async function sendVerifyEmail() {
   const { account } = await createSessionClient();
 
   // Uses userId and secret params
-  const promise = account.createVerification('https://taskman-tau.vercel.app/dashboard');
-
-  console.log("appwrite.ts", promise)
+  const promise = account.createVerification('https://taskman-tau.vercel.app/verify');
 
   promise.then(function (response) {
-    console.log("Success!", response);
+    console.log("Successfully sent a verification email", response);
   }, function (error) {
-    console.log("Failure", error);
+    console.log("appwrite.ts sendVerifyEmail \n Failure to send a verification email\n", error);
+    if (error instanceof AppwriteException) {
+      console.log(error.code)
+      if (error.code == 429) {
+        return "Rate limit exceeded. Please try again in 10 minutes."
+      } else if (error.code == 401)
+        return "Invalid link. Please try email verification again through dashboard"
+    }
   })
 }
 
 // Updates the verification status of the user
-export async function updateVerifyStatus() {
+export async function updateVerifyStatus(
+  userId: string, 
+  secret: string
+) {
 
   const { account } = await createSessionClient();
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const secret = urlParams.get('secret') as string;
-  const userID = urlParams.get('userId') as string;
+  try {
+    const updateStatus = await account.updateVerification(userId, secret);
+    console.log("appwrite.ts", updateStatus);
+    return updateStatus;
+  } catch (error) {
+    if (error instanceof AppwriteException) {
+      return NextResponse.json(
+        { message: error.message },
+        { status: error.code }
+      )
+    } else {
+      return "This is an unknown updateVerification error"
+    }
+  }
 
-  const promise = account.updateVerification(userID, secret);
+  {/*
+  const promise = account.updateVerification(userId, secret);
 
   promise.then(function (response) {
     console.log("appwrite.ts Successfully verified user", response);
   }, function (error) {
-    console.log("appwrite.ts Failed to verify user", error);
+    if (error instanceof AppwriteException){
+      console.log("Appwrite.ts", error.message, error.code)
+    } else {
+      console.log("appwrite.ts Failed to verify user", error);
+    }
   })
+  */}
+}
+
+// gets the verification status of the current user
+export async function getEmailVerificationStatus() {
+  const { account } = await createSessionClient();
+  const user = await account.get();
+
+  // account.emailverification returns boolean
+  const verificationStatus = user.emailVerification;
+  return verificationStatus;
 }
