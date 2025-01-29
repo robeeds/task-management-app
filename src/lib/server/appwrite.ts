@@ -89,7 +89,7 @@ export async function registerUser(
 
   try {
     const session = await logInUser(email, password);
-    sendVerifyEmail();
+    await sendVerifyEmail();
     return session;
   } catch (error) {
     if (error instanceof AppwriteException) {
