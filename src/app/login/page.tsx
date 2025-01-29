@@ -2,12 +2,15 @@
 
 import Image from "next/image";
 import login from "../../../public/login.svg";
+import eye from "../../../public/eye.svg"
+import eyeOff from "../../../public/eyeoff.svg"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null); // State to hold the error message
+  const [showPassword, setShowPassword] = useState(false); // State to show password visibility
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -65,14 +68,27 @@ export default function LoginPage() {
         {/* This will be the Password Field */}
         <div className="flex flex-1 flex-col w-full gap-1">
           <p className="font-medium">Password</p>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            autoComplete="true"
-            required
-            className="bg-background p-2 rounded-[10px]"
-          />
+          <div className="flex bg-background p-2 rounded-[10px]">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              autoComplete="true"
+              required
+              className="flex flex-1 bg-background"
+            />
+            <Image 
+              src={showPassword ? eye : eyeOff}
+              alt="Password toggle"
+              width={28}
+              height={28}
+              onClick={() => 
+                setShowPassword((prev) => !prev)
+              }
+            />
+          </div>
+          
+          
         </div>
 
         {/* Error Message */}

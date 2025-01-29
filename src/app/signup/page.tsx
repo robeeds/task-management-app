@@ -2,12 +2,15 @@
 
 import Image from "next/image";
 import login from "../../../public/login.svg";
+import eye from "../../../public/eye.svg"
+import eyeOff from "../../../public/eyeoff.svg"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function SignUpPage() {
   const [error, setError] = useState<string | null>(null); // State to hold the error message
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -88,27 +91,49 @@ export default function SignUpPage() {
         {/* This will be the Password Field */}
         <div className="flex flex-1 flex-col w-full gap-1">
           <p className="font-medium">Password</p>
+          <div className="flex bg-background p-2 rounded-[10px]">
           <input
             id="password"
             name="password"
             minLength={8}
-            type="password"
+            type={showPassword ? "text" : "password"}
             autoComplete="true"
             required
-            className="bg-background p-2 rounded-[10px]"
+            className="flex flex-1 bg-background"
           />
+          <Image 
+            src={showPassword ? eye : eyeOff}
+            alt="Password toggle"
+            width={28}
+            height={28}
+            onClick={() => 
+              setShowPassword((prev) => !prev)
+            }
+          />
+          </div>
         </div>
 
         {/* This will be the Confirm Password Field */}
         <div className="flex flex-1 flex-col w-full gap-1">
           <p className="font-medium">Confirm Password</p>
-          <input
-            id="confirmPass"
-            name="confirmPass"
-            type="password"
-            required
-            className="bg-background p-2 rounded-[10px]"
-          />
+          <div className="flex bg-background p-2 rounded-[10px]">
+            <input
+              id="confirmPass"
+              name="confirmPass"
+              type={showPassword ? "text" : "password"}
+              required
+              className="flex flex-1 bg-background"
+            />
+            <Image 
+              src={showPassword ? eye : eyeOff}
+              alt="Password toggle"
+              width={28}
+              height={28}
+              onClick={() => 
+                setShowPassword((prev) => !prev)
+              }
+            />
+          </div>
         </div>
 
         {/* Error Message */}
