@@ -86,10 +86,10 @@ export async function registerUser(
   const { account } = await createAdminClient();
 
   await account.create(ID.unique(), email, password, name);
-  await sendVerifyEmail();
 
   try {
     const session = await logInUser(email, password);
+    await sendVerifyEmail();
     return session;
   } catch (error) {
     if (error instanceof AppwriteException) {
@@ -146,8 +146,11 @@ export async function sendVerifyEmail() {
       console.log(error.code)
       if (error.code == 429) {
         return "Rate limit exceeded. Please try again in 10 minutes."
-      } else if (error.code == 401)
-        return "Invalid link. Please try email verification again through dashboard"
+      } else if (error.code == 401) {
+        return "Invalid link. Please try email verification again through dashboard" 
+      } else {
+        return (error.message)
+      }
     }
   })
 }
