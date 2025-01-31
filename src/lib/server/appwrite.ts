@@ -86,10 +86,10 @@ export async function registerUser(
   const { account } = await createAdminClient();
 
   await account.create(ID.unique(), email, password, name);
+  await sendVerifyEmail();
 
   try {
     const session = await logInUser(email, password);
-    await sendVerifyEmail();
     return session;
   } catch (error) {
     if (error instanceof AppwriteException) {
