@@ -1,7 +1,14 @@
+// Imports
+'use client'
+import { useState } from "react";
+
 // Components
 import NewTaskCard from "@/app/ui/dashboard/create-task-card";
 
 export default function Page() {
+  // Toggle Create Task
+  let [createTask, showCreateTask] = useState(false);
+
   return (
     <div className="flex flex-1 flex-col h-full w-full bg-background p-4">
       

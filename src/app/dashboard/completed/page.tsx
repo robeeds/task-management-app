@@ -9,7 +9,7 @@ export default function Page() {
       
 
       {/* Divider */}
-      <div className="flex">
+      <div className="flex pl-2">
         <hr className="w-[10%] border-foreground rounded-full" />
       </div>
 

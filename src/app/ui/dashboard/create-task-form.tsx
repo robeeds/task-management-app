@@ -1,8 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
+import Image from "next/image";
+
+import star from "../../../../public/star.svg"
+import starOff from "../../../../public/starOff.svg"
 
 export default function CreateTaskForm() {
+    // Custom Star for Marking Tasks as Important
+    const [important, setImportant] = useState(false);
+
     return (
         <div className="flex bg-backgroundTwo rounded-[15px]">
             <form className="flex flex-col gap-6 row-start-2 items-center sm:items-start bg-backgroundTwo p-10 rounded-[20px] md:min-w-[600px]">
@@ -30,7 +38,7 @@ export default function CreateTaskForm() {
                     <textarea
                         id="description"
                         required
-                        className="bg-background p-2 rounded-[10px] placeholder:text-gray-400"
+                        className="bg-background p-2 rounded-[10px] placeholder:text-gray-400 md:min-h-[200px]"
                         placeholder="Create a full-stack application using Appwrite, Next.js, and Tailwind."
                     />
                 </div>
@@ -46,12 +54,18 @@ export default function CreateTaskForm() {
                 </div>
 
                 {/* Important */}
-                <div className="flex flex-1 flex-row w-full gap-1 justify-between">
+                <div className="flex flex-1 flex-row w-full gap-1 justify-between items-center">
                     <p className="font-medium">Important?</p>
-                    <input
+                    <Image
                         id="important"
-                        type="checkbox"
-                        className="mr-3 checked:accent-foreground"
+                        alt="Toggle Important"
+                        src={important ? star : starOff}
+                        width={24}
+                        height={24}
+                        onClick={() => 
+                            setImportant((prev) => !prev)
+                        }
+                        className="mr-1.5"
                     />
                 </div>
 
