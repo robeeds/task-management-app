@@ -1,6 +1,6 @@
 "use server";
 
-import { Client, Account, ID, AppwriteException } from "node-appwrite";
+import { Client, Account, ID, Databases, AppwriteException } from "node-appwrite";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
@@ -90,6 +90,7 @@ export async function registerUser(
   try {
     const session = await logInUser(email, password);
     await sendVerifyEmail();
+    await createDatabase();
     return session;
   } catch (error) {
     if (error instanceof AppwriteException) {
@@ -177,23 +178,9 @@ export async function updateVerifyStatus(
       return "This is an unknown updateVerification error"
     }
   }
-
-  {/*
-  const promise = account.updateVerification(userId, secret);
-
-  promise.then(function (response) {
-    console.log("appwrite.ts Successfully verified user", response);
-  }, function (error) {
-    if (error instanceof AppwriteException){
-      console.log("Appwrite.ts", error.message, error.code)
-    } else {
-      console.log("appwrite.ts Failed to verify user", error);
-    }
-  })
-  */}
 }
 
-// gets the verification status of the current user
+// Gets the verification status of the current user
 export async function getEmailVerificationStatus() {
   const { account } = await createSessionClient();
   const user = await account.get();
@@ -201,4 +188,38 @@ export async function getEmailVerificationStatus() {
   // account.emailverification returns boolean
   const verificationStatus = user.emailVerification;
   return verificationStatus;
+}
+
+// Creates the user's database
+export async function createDatabase() {
+  const sdk = require('node-appwrite');
+  const client = new sdk.Client();
+
+  client
+    .setEndpoint(endpoint)
+    .setProject(project)
+    .setKey(key)
+
+  const databases = new sdk.Databases(client);
+
+  // Get's the current user's username
+  const user = await getLoggedInUser();
+  const userEmail = user?.email as string;
+
+  // Creates a database using a unique ID, and the user's email as the database name
+  const promise = databases.create(
+    ID.unique(),
+    userEmail,
+    true
+  )
+
+  promise.then(function (response: any) {
+    console.log("appwrite.ts createDatabases()", response);
+  }, function (error: any) {
+    console.log(error);
+    if(error instanceof AppwriteException) {
+      console.log("Apprite.ts createDatabase()", error.name, error.message, error.code)
+    }
+  })
+
 }
