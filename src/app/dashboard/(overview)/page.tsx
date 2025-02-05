@@ -2,7 +2,7 @@
 
 // Imports
 import CreateTaskCard from "@/app/ui/dashboard/create-task-card";
-import TaskCard  from "@/app/ui/task-card";
+import TaskCard from "@/app/ui/dashboard/task-card";
 
 import { fetchDocuments } from "@/lib/server/appwrite";
 
@@ -33,7 +33,7 @@ export default async function Page() {
             key={card.$id} 
             Title={card.Title}
             Description={card.Description}
-            Date={card.Date}
+            DueDate={card.DueDate}
             Important={card.Important}
             Completed={card.Completed}
           />
