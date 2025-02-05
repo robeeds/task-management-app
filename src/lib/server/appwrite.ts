@@ -1,6 +1,6 @@
 "use server";
 
-import { Client, Account, ID, AppwriteException } from "node-appwrite";
+import { Client, Account, ID, Databases, Query, AppwriteException } from "node-appwrite";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
@@ -9,6 +9,8 @@ import { NextResponse } from "next/server";
 const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT as string;
 const project = process.env.NEXT_PUBLIC_APPWRITE_PROJECT as string;
 const key = process.env.NEXT_APPWRITE_KEY as string;
+const database_id = process.env.NEXT_APPWRITE_DATABASE_KEY as string;
+const collection_id = process.env.NEXT_APPWRITE_COLLECTION_KEY as string;
 
 // Creates end user session client
 export async function createSessionClient() {
@@ -89,7 +91,12 @@ export async function registerUser(
 
   try {
     const session = await logInUser(email, password);
+
+    // General functions on account creation
     await sendVerifyEmail();
+    await createDocument();
+    await fetchDocuments();
+
     return session;
   } catch (error) {
     if (error instanceof AppwriteException) {
@@ -177,23 +184,9 @@ export async function updateVerifyStatus(
       return "This is an unknown updateVerification error"
     }
   }
-
-  {/*
-  const promise = account.updateVerification(userId, secret);
-
-  promise.then(function (response) {
-    console.log("appwrite.ts Successfully verified user", response);
-  }, function (error) {
-    if (error instanceof AppwriteException){
-      console.log("Appwrite.ts", error.message, error.code)
-    } else {
-      console.log("appwrite.ts Failed to verify user", error);
-    }
-  })
-  */}
 }
 
-// gets the verification status of the current user
+// Gets the verification status of the current user
 export async function getEmailVerificationStatus() {
   const { account } = await createSessionClient();
   const user = await account.get();
@@ -201,4 +194,74 @@ export async function getEmailVerificationStatus() {
   // account.emailverification returns boolean
   const verificationStatus = user.emailVerification;
   return verificationStatus;
+}
+
+// Creates the user's first template document
+export async function createDocument() {
+  const client = new Client();
+
+  client
+    .setEndpoint(endpoint)
+    .setProject(project)
+    .setKey(key)
+
+  const databases = new Databases(client);
+
+  // Get's the current user's username
+  const user = await getLoggedInUser();
+  const userId = user?.$id as string;
+
+  // Data to fill document
+  const data = {
+    user_id : userId,
+    Title : "This is an example title",
+    Description : "This is an example description",
+    Important : true,
+    Completed : false,
+  }
+  const json = JSON.stringify(data);
+
+  // Creates a database using a unique ID, and the user's id as the database name
+  const promise = databases.createDocument(
+    database_id,
+    collection_id,
+    ID.unique(),
+    json,
+  )
+
+  promise.then(function (response) {
+    console.log("appwrite.ts createDocument()", response);
+  }, function (error) {
+    console.log(error);
+    if(error instanceof AppwriteException) {
+      console.log("Apprite.ts createDocument()", error.name, error.message, error.code)
+    }
+  })
+
+}
+
+// Lists the User's Tasks
+export async function fetchDocuments() {
+  const client = new Client()
+
+  client
+    .setEndpoint(endpoint)
+    .setProject(project)
+    .setKey(key)
+
+  const databases = new Databases(client);
+
+  // Gets the userId
+  const user = await getLoggedInUser();
+  const userId = user?.$id as string;
+
+  const promise = await databases.listDocuments(
+    database_id,
+    collection_id,
+    [
+      Query.equal('user_id', [userId])
+    ]
+  )
+
+  return promise;
 }

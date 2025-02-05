@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
+let userId : string | null;
+let secret : string | null;
+
 export default function Page() {
     const [error, setError] = useState<string | null>(null);
-    let userId : string | null;
-    let secret : string | null;
     const router = useRouter();
 
     // Gathers userId and secret to pass to verification api

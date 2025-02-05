@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-      <div className="flex flex-1 h-fullc">
+      <div className="flex flex-1 h-full">
 
       {/* Side navigation  */}
       <div className="flex flex-1 max-w-[330px] bg-background p-4">
