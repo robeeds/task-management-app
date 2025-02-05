@@ -1,13 +1,16 @@
+// @/src/app/dashboard/(overview)/page.tsx
+
 // Imports
-'use client'
-// import { useState } from "react";
+import CreateTaskCard from "@/app/ui/dashboard/create-task-card";
+import TaskCard  from "@/app/ui/task-card";
 
-// Components
-import NewTaskCard from "@/app/ui/dashboard/create-task-card";
+import { fetchDocuments } from "@/lib/server/appwrite";
 
-export default function Page() {
-  // Toggle Create Task
-  //let [createTask, showCreateTask] = useState(false);
+export default async function Page() {
+
+  // Gathers data from appwrite to be rendered
+  const taskData = await fetchDocuments();
+  const tasks = await taskData.documents;
 
   return (
     <div className="flex flex-1 flex-col h-full w-full bg-background p-4">
@@ -24,8 +27,18 @@ export default function Page() {
       </div>
 
       {/* Task Section */}
-      <div className="grid grid-cols-3 gap-2 pt-4">
-        <NewTaskCard />
+      <div className="grid grid-cols-3 gap-4 pt-4">
+        {tasks.map((card) =>
+          <TaskCard 
+            key={card.$id} 
+            Title={card.Title}
+            Description={card.Description}
+            Date={card.Date}
+            Important={card.Important}
+            Completed={card.Completed}
+          />
+        )}
+        <CreateTaskCard />
       </div>
 
     </div>
