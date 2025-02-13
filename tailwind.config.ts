@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const { createThemes } = require('tw-colors')
 
 export default {
   content: [
@@ -6,13 +7,20 @@ export default {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {
-    extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
-    },
-  },
-  plugins: [],
+  plugins: [
+    createThemes({
+      gruvbox: {
+        'textPrimary' : '#EBDBB2',
+        'textSecondary' : '#A89984',
+        'link' : '#458588',
+        'backgroundPrimary' : '#32302F',
+        'backgroundSecondary' : '#282828',
+        'button' : '#98971A',
+        'danger' : '#CC241D',
+        'warning' : '#D65D0E',
+        'success' : '#689D6A',
+        'modalBackground' : 'rgba(0, 0, 0, 0.5)',
+      }
+   })
+  ],
 } satisfies Config;
