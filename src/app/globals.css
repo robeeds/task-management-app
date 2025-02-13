@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.gruvbox {
+[data-theme="gruvbox"] {
   --textPrimary: #EBDBB2;
   --textSecondary: #A89984;
   --link: #458588;
@@ -15,7 +15,7 @@
   --modalBackground: rgba(0, 0, 0, 0.5);
 }
 
-.catpuccin {
+[data-theme="catpuccin"] {
   --textPrimary: #c6d0f5;
   --textSecondary: #b5bfe2;
   --link: #81c8be;
