@@ -7,6 +7,7 @@ import { useState } from "react";
 import { EyeIcon, EyeSlashIcon, ArrowRightEndOnRectangleIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { login } from "../actions/auth";
 
 export default function Page() {
     const [showPassword, setShowPassword] = useState(false); // State to show password visibility
@@ -19,7 +20,7 @@ export default function Page() {
             </div>
             
             {/* This will be the login form */}
-            <form className="flex flex-col gap-6 items-center justify-center p-10 bg-backgroundPrimary rounded-md min-w-[270px] md:rounded-[20px] md:min-w-[600px]">
+            <form action={login} className="flex flex-col gap-6 items-center justify-center p-10 bg-backgroundPrimary rounded-md min-w-[270px] md:rounded-[20px] md:min-w-[600px]">
 
                 {/* Title */}
                 <p className="font-semibold text-3xl pb-2">Login</p>
