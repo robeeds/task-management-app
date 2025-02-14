@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-1 flex-col items-center justify-items-center bg-backgroundPrimary text-textPrimary font-bold p-8 pb-20 sm:p-20">
 
-      {/* Testing Color Switch*/}
+      {/* Theme Selector */}
       <div className="flex self-end">
         <ThemeDropdown />
       </div>
