@@ -4,7 +4,7 @@ import { Client, Account, ID } from "appwrite";
 import { RegisterFormSchema, FormState } from "../lib/definitions";
 
 // Appwrite Variables
-const PROJECT_ID = '6753d8760022acf2006b';
+const PROJECT_ID = process.env.NEXT_PUBLIC_APPWRITE_PROJECT as string;
 
 // Register the User
 export async function register(state: FormState, formData: FormData) {
@@ -31,15 +31,17 @@ export async function register(state: FormState, formData: FormData) {
         .setProject(PROJECT_ID);
 
     const account = new Account(client);
-    const data = await account.create(ID.unique(), email, password, name);
+    const data = account.create(ID.unique(), email, password, name);
 
-    const user = data.$id
-
-    if(!user) {
+    if(!data) {
         return {
             message: 'An error occurred while creating an account'
         }
     }
+
+    // TODO:
+    // Create User Session
+    // Redirect User
 }
 
 // Login the User
