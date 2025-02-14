@@ -1,6 +1,5 @@
 // @/src/app/layout.tsx
 
-
 // Imports
 import type { Metadata } from "next";
 import { Fira_Code } from "next/font/google";
@@ -28,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${firaCode.variable} antialiased`}
+        className={`${firaCode.variable} font-[family-name:var(--font-fira-code)] antialiased`}
       >
         <Providers>
           {children}

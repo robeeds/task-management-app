@@ -44,40 +44,39 @@ export default function ThemeDropdown() {
 
     return (
         <div className="">
-            <div className="">
                 
-                {/* Dropdown button */}
-                <button
-                    type="button"
-                    className="flex flex-1 items-center justify-between
-                               rounded-md px-4 py-2 bg-backgroundPrimary
-                               font-medium text-textPrimary hover:bg-backgroundSecondary min-w-[150px]"
-                    onClick={toggleDropdown}
-                >
-                    {resolvedTheme}
-                    <SwatchIcon width={32} height={32} className="ml-2" />
-                </button>
+            {/* Dropdown button */}
+            <button
+                type="button"
+                className="flex flex-1 items-center justify-between
+                            rounded-md px-4 py-2 bg-backgroundPrimary
+                            font-medium text-textPrimary hover:bg-backgroundSecondary min-w-[150px]"
+                onClick={toggleDropdown}
+            >
+                {resolvedTheme}
+                <SwatchIcon width={32} height={32} className="ml-2" />
+            </button>
 
-                {/* Dropdown menu */}
-                {isOpen && (
-                    <div className="absolute
-                                    mt-2 rounded-md
-                                    shadow-lg bg-backgroundSecondary ring-1 ring-black
-                                    ring-opacity-5 focus:outline-none">
-                        <div className="py-1">
-                            {themes.map((theme, index) => (
-                                <a
-                                    key={index}
-                                    className="block px-4 py-2 text-textSecondary hover:cursor-pointer hover:bg-backgroundPrimary"
-                                    onClick={() => handleSelect(theme)}
-                                >
-                                    {theme}
-                                </a>
-                            ))}
-                        </div>
+            {/* Dropdown menu */}
+            {isOpen && (
+                <div className="absolute
+                                mt-2 rounded-md
+                                shadow-lg bg-backgroundSecondary ring-1 ring-black
+                                ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                        {themes.map((theme, index) => (
+                            <a
+                                key={index}
+                                className="block px-4 py-2 text-textSecondary hover:cursor-pointer hover:bg-backgroundPrimary"
+                                onClick={() => handleSelect(theme)}
+                            >
+                                {theme}
+                            </a>
+                        ))}
                     </div>
-                )}
-            </div>
+                </div>
+            )}
+
         </div>
     );
 }

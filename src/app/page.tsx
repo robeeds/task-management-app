@@ -4,11 +4,11 @@
 // Imports
 import { motion } from "framer-motion";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import ThemeDropdown from "./components/ThemeDropdown";
+import ThemeDropdown from "../components/ThemeDropdown";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-1 flex-col items-center justify-items-center font-[family-name:var(--font-fira-code)] bg-backgroundPrimary text-textPrimary font-bold p-8 pb-20 sm:p-20">
+    <div className="min-h-screen flex flex-1 flex-col items-center justify-items-center bg-backgroundPrimary text-textPrimary font-bold p-8 pb-20 sm:p-20">
 
       {/* Testing Color Switch*/}
       <div className="flex self-end">
@@ -22,13 +22,14 @@ export default function Home() {
         <p className="flex text-center pb-4">Taskman | A Task Management App</p>
 
         {/* Button */}
-        <motion.button 
+        <motion.a 
           className="flex flex-row items-center text-backgroundPrimary px-4 py-2 bg-button rounded-full" 
           whileHover={{ scale: 1.1 }}
+          href="login"
         >
           <p className="pr-4">Login</p>
           <ArrowRightIcon width={18} height={18} strokeWidth={3}/>
-        </motion.button>
+        </motion.a>
         
       </div>
 
