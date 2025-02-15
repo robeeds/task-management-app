@@ -39,8 +39,9 @@ export default function Page() {
                         required
                         className="bg-backgroundSecondary p-2 rounded-[10px]"
                     />
+                    {state?.errors?.name && <p className="flex flex-1 self-start text-warning">{state.errors.name}</p>}
                 </div>
-                {state?.errors?.name && <p>{state.errors.name}</p>}
+                
 
                 {/* This will be the Email Field */}
                 <div className="flex flex-1 flex-col w-full gap-1">
@@ -53,8 +54,9 @@ export default function Page() {
                         required
                         className="bg-backgroundSecondary p-2 rounded-[10px]"
                     />
+                    {state?.errors?.email && <p className="flex flex-1 self-start text-warning">{state.errors.email}</p>}
                 </div>
-                {state?.errors?.email && <p>{state.errors.email}</p>}
+                
 
                 {/* This will be the Password Field */}
                 <div className="flex flex-1 flex-col w-full gap-1">
@@ -114,20 +116,23 @@ export default function Page() {
                                 onClick={() => setShowPassword((prev) => !prev)
                             }/>
                         }
-
                     </div>
+                    {/* Password Errors */}
+                    {state?.errors?.password && (
+                        <div className="flex flex-1 flex-col self-start text-warning">
+                            <p>Password must:</p>
+                            <ul>
+                                {state.errors.password.map((error) => (
+                                <li key={error}>- {error}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
-                {/* Password Errors */}
-                {state?.errors?.password && (
-                    <div>
-                    <p>Password must:</p>
-                    <ul>
-                        {state.errors.password.map((error) => (
-                        <li key={error}>- {error}</li>
-                        ))}
-                    </ul>
-                    </div>
+                {state?.message && (
+                    <p className="text-warning">{state.message}</p>
                 )}
+                
 
                 {/* This will be the login button */}
                 <motion.button

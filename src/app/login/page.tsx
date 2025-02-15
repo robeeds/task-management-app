@@ -3,7 +3,7 @@
 
 // Imports
 import ThemeDropdown from "@/components/ThemeDropdown"
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { EyeIcon, EyeSlashIcon, ArrowRightEndOnRectangleIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import { login } from "../actions/auth";
 
 export default function Page() {
     const [showPassword, setShowPassword] = useState(false); // State to show password visibility
+    const [state, action, pending] = useActionState(login, undefined)
 
     return (
         <div className="min-h-screen flex flex-1 flex-col items-center justify-items-center bg-backgroundSecondary text-textPrimary p-8 pb-20 sm:p-20">
@@ -20,7 +21,7 @@ export default function Page() {
             </div>
             
             {/* This will be the login form */}
-            <form action={login} className="flex flex-col gap-6 items-center justify-center p-10 bg-backgroundPrimary rounded-md min-w-[270px] md:rounded-[20px] md:min-w-[600px]">
+            <form action={action} className="flex flex-col gap-6 items-center justify-center p-10 bg-backgroundPrimary rounded-md min-w-[270px] md:rounded-[20px] md:min-w-[600px]">
 
                 {/* Title */}
                 <p className="font-semibold text-3xl pb-2">Login</p>
@@ -37,6 +38,7 @@ export default function Page() {
                         required
                         className="bg-backgroundSecondary p-2 rounded-[10px]"
                     />
+                    {state?.errors?.email && <p className="flex flex-1 self-start text-warning">{state.errors.email}</p>}
                 </div>
 
                 {/* This will be the Password Field */}
@@ -68,11 +70,26 @@ export default function Page() {
                         }
 
                     </div>
+                    {/* Password Errors */}
+                    {state?.errors?.password && (
+                        <div className="text-warning">
+                        <p>Password must:</p>
+                        <ul>
+                            {state.errors.password.map((error) => (
+                            <li key={error}>- {error}</li>
+                            ))}
+                        </ul>
+                        </div>
+                    )}
                 </div>
+                {state?.message && (
+                    <p className="text-warning">{state.message}</p>
+                )}
 
                 {/* This will be the login button */}
                 <motion.button
                     type="submit"
+                    disabled={pending}
                     className="self-center bg-button rounded-full my-6"
                     whileHover={{ scale: 1.1 }}
                 >
