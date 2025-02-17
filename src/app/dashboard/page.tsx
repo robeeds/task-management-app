@@ -15,7 +15,11 @@ export default function Page() {
 
             {/* This will be the general task area */}
             <div className="flex flex-1 bg-backgroundSecondary p-4">
-                Task Area
+
+                {/* Title */}
+                <p className="text-4xl">Task Area</p>
+
+                {/* Divider */}
             </div>
         </div>
     )
