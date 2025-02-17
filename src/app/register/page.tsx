@@ -22,7 +22,7 @@ export default function Page() {
             </div>
             
             {/* This will be the signup form */}
-            <form action={action} className="flex flex-col gap-6 items-center justify-center p-10 bg-backgroundPrimary rounded-md min-w-[270px] md:rounded-[20px] md:min-w-[600px]">
+            <form action={action} className="flex flex-col gap-6 items-center justify-center p-10 bg-backgroundPrimary min-w-[270px] rounded-[15px] md:min-w-[600px]">
 
                 {/* Title */}
                 <p className="font-semibold text-3xl pb-2">Register</p>
