@@ -141,3 +141,13 @@ export async function logout() {
     // Redirect the user
     redirect('/login')
 }
+
+// Get the current user
+export async function getUser() {
+    const { account } = await createSessionClient();
+    const user = await account?.get();
+
+    const username = user?.name;
+
+    return username;
+}

@@ -49,6 +49,7 @@ export async function createAdminClient() {
     };
 }
 
+// Sets the current session's cookie
 export async function createSessionCookie(secret: string, expiry: Date) {
     const nextCookies = await cookies()
 
