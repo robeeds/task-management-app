@@ -5,6 +5,7 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/test/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -14,6 +15,7 @@ export default {
         link: 'var(--link)',
         backgroundPrimary: 'var(--backgroundPrimary)',
         backgroundSecondary: 'var(--backgroundSecondary)',
+        backgroundTertiary: 'var(--backgroundTertiary)',
         button: 'var(--button)',
         danger: 'var(--danger)',
         warning: 'var(--warning)',
