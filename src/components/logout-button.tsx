@@ -2,7 +2,7 @@
 "use client"
 
 // Imports
-import { logout } from "@/app/actions/auth"
+import { logout } from "@/actions/auth"
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline"
 import { motion } from "framer-motion"
 

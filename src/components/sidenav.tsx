@@ -1,7 +1,7 @@
 // @/src/test/sidenav.tsx
 
 // Imports
-import { getUser } from "@/app/actions/auth"
+import { getUser } from "@/actions/auth"
 import LogoutButton from "./logout-button"
 import NavLinks from "./navlinks";
 import SettingsButton from "./settings-button";

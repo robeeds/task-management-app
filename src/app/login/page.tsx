@@ -7,7 +7,7 @@ import { useActionState, useState } from "react";
 import { EyeIcon, EyeSlashIcon, ArrowRightEndOnRectangleIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { login } from "../actions/auth";
+import { login } from "../../actions/auth";
 
 export default function Page() {
     const [showPassword, setShowPassword] = useState(false); // State to show password visibility
