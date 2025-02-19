@@ -11,7 +11,7 @@ export default function Page() {
     const router = useRouter(); // Will be used for back
 
     return (
-        <div className="flex flex-1 bg-backgroundPrimary text-textPrimary min-h-screen justify-center">
+        <div className="flex flex-1 bg-backgroundPrimary text-textPrimary justify-center rounded-b-[15px] md:rounded-bl-none md:rounded-r-[15px]">
             <div className="flex flex-1 flex-col justify-center max-w-[330px]">
 
                 {/* Title */}
