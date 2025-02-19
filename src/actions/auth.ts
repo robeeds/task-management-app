@@ -146,8 +146,5 @@ export async function logout() {
 export async function getUser() {
     const { account } = await createSessionClient();
     const user = await account?.get();
-
-    const username = user?.name;
-
-    return username;
+    return user;
 }

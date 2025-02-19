@@ -7,7 +7,8 @@ import NavLinks from "./navlinks";
 import SettingsButton from "./settings-button";
 
 export default async function SideNav() {
-    const username = await getUser();
+    const user = await getUser();
+    const username = user?.name;
     return (
         <div className="flex flex-1 flex-row items-center md:items-start md:flex-col bg-backgroundSecondary p-4">
 
