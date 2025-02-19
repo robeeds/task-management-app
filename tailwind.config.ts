@@ -12,6 +12,7 @@ export default {
       colors: {
         textPrimary: "var(--textPrimary)",
         textSecondary: "var(--textSecondary)",
+        textTertiary: "var(--textTertiary)",
         link: 'var(--link)',
         backgroundPrimary: 'var(--backgroundPrimary)',
         backgroundSecondary: 'var(--backgroundSecondary)',
