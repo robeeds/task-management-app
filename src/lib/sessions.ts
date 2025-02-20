@@ -1,9 +1,11 @@
 // @/src/lib/sessions.ts
 
+// Imports
 import 'server-only'
 import { cookies } from 'next/headers'
 import { Account, Client } from 'node-appwrite';
 
+// Env. Variables
 const ENDPOINT = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT as string
 const PROJECT_ID = process.env.NEXT_PUBLIC_APPWRITE_PROJECT as string;
 const KEY = process.env.NEXT_APPWRITE_KEY as string;

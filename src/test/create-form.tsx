@@ -3,23 +3,20 @@
 
 // Imports
 import { motion } from "framer-motion"
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { StarIcon as StarOff } from "@heroicons/react/24/outline";
 import { StarIcon as StarOn } from "@heroicons/react/24/solid";
+import { createTask } from "@/actions/tasks";
 
 export default function CreateForm() {
-    const router = useRouter();
-    const [important, setImportant] = useState(false);
-    {/* Create a new form schema and use zod to check validity of inputs */}
-
-    const handleImportantToggle = () => {
-        setImportant((prev) => !prev)
-    }
+    const router = useRouter(); // Used for back button
+    const [important, setImportant] = useState(false); // State to toggle task importance
+    const [state, action, pending] = useActionState(createTask, undefined)
 
     return(
-        <form className="flex flex-col justify-center gap-6 p-4">
+        <form action={action} className="flex flex-col justify-center gap-6 p-4">
             
             {/* Form Title */}
             <p className="font-bold text-3xl pt-5 pl-2 self-center ">Create Task</p>
@@ -34,10 +31,12 @@ export default function CreateForm() {
                 <p className="font-medium">Title</p>
                 <input
                     id="title"
+                    name="title"
                     required
                     className="bg-backgroundTertiary p-2 rounded-[10px] placeholder:text-textTertiary"
                     placeholder="My Project"
-                />
+                    />
+                {state?.errors.title && <p>{state.errors.title}</p>}
             </div>
 
             {/* Description */}
@@ -45,27 +44,36 @@ export default function CreateForm() {
                 <p className="font-medium">Description</p>
                 <textarea
                     id="description"
-                    required
                     className="bg-backgroundTertiary p-2 rounded-[10px] placeholder:text-textTertiary md:min-h-[200px]"
                     placeholder="Create a full-stack application using Appwrite, Next.js, and Tailwind."
                 />
+                {state?.errors.description && <p>{state.errors.description}</p>}
             </div>
 
             {/* Due Date */}
             <div className="flex flex-1 flex-col w-full gap-1">
                 <p className="font-medium">Due Date</p>
                 <input 
-                    id="date"
+                    id="dueDate"
+                    name="dueDate"
                     type="date"
                     className="text-textTertiary bg-backgroundTertiary p-2 rounded-[10px]"
                 />
+                {state?.errors.dueDate && <p>{state.errors.dueDate}</p>}
             </div>
 
             {/* isImportant Toggle */}
             <div className="flex flex-1 flex-row w-full gap-1 justify-between items-center">
                 <p className="font-medium">Important?</p>
-                <div onClick={handleImportantToggle}>
-                    {important ? <StarOn width={28} height={28} /> : <StarOff width={28} height={28} />}
+                <div>
+                    <input id="isImportant" name="isImportant" type="checkbox" className="hidden" onChange={() => setImportant((prev) => !prev)}/>
+                    <label htmlFor="isImportant" >
+                        {important ? 
+                            <StarOn width={28} height={28}  />
+                            : 
+                            <StarOff width={28} height={28} />
+                        }
+                    </label>
                 </div>
             </div>
 
@@ -80,7 +88,8 @@ export default function CreateForm() {
                 {/* Submit Button */}
                 <div className="flex">
                     <motion.button 
-                        //onSubmit={}
+                        type="submit"
+                        disabled={pending}
                         className="flex flex-1 bg-button rounded-full"
                         whileHover={{ scale: 1.1 }}
                     >
@@ -88,8 +97,6 @@ export default function CreateForm() {
                     </motion.button>
                 </div>            
             </div>
-
-
         </form>
     )
 }

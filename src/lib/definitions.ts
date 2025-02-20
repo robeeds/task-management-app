@@ -1,6 +1,9 @@
 // @/src/app/lib/definitions.ts
+
+// Imports
 import { z } from "zod"
  
+// Schema for Registration Form
 export const RegisterFormSchema = z.object({
   name: z
     .string()
@@ -18,6 +21,7 @@ export const RegisterFormSchema = z.object({
     .trim(),
 })
 
+// Schema for Login Form
 export const LoginFormSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
   password: z
@@ -30,8 +34,31 @@ export const LoginFormSchema = z.object({
     })
     .trim(),
 })
- 
-export type FormState =
+
+// Schema for Task Creation Form
+export const CreateTaskSchema = z.object({
+  title: z
+    .string()
+    .min(1, { message: 'Please enter a task title'})
+    .trim(),
+  description: z
+    .string()
+    .trim()
+    .nullable(),
+  dueDate: z
+    .string()
+    .trim()
+    .date()
+    .optional()
+    .or(z.literal('')),
+  isImportant: z
+    .coerce.boolean(),
+  isComplete: z
+    .boolean(),
+})
+
+// Register and Login Form States, returns errors from zod
+export type AuthFormState =
   | {
       errors?: {
         name?: string[]
@@ -42,3 +69,27 @@ export type FormState =
     }
   | undefined
 
+// Task Form State, returns error from zod
+export type TaskFormState = 
+  | {
+      errors?: {
+        title?: string[]
+        description?: string[]
+        dueDate?: string[]
+        isImportant?: string[]
+        isComplete?: string[]
+      }
+      message?: string
+    }
+  | undefined
+
+// Schema for retrieving task data
+export interface TaskSchema {
+    $id: string
+    $createdAt: string
+    title: string
+    description: string | null
+    dueDate: Date | null
+    isImportant: boolean
+    isCompleted: boolean
+}

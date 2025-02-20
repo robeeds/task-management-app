@@ -3,13 +3,13 @@
 
 // Imports
 import { AppwriteException, ID } from "node-appwrite";
-import { RegisterFormSchema, FormState, LoginFormSchema } from "../lib/definitions";
+import { RegisterFormSchema, AuthFormState, LoginFormSchema } from "../lib/definitions";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { createAdminClient, createSessionClient, createSessionCookie } from "../lib/sessions";
 
 // Register the User
-export async function register(state: FormState, formData: FormData) {
+export async function register(state: AuthFormState, formData: FormData) {
 
     // Validate form fields
     const validatedFields = RegisterFormSchema.safeParse({
@@ -77,7 +77,7 @@ export async function register(state: FormState, formData: FormData) {
 }
 
 // Login the User
-export async function login(state: FormState, formData: FormData) {
+export async function login(state: AuthFormState, formData: FormData) {
 
     // Validate form fields
     const validatedFields = LoginFormSchema.safeParse({
