@@ -4,7 +4,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import { getUser } from "./actions/auth";
 
 const protectedRoutes = ['/dashboard']
 const publicRoutes = ['/login', '/register', '/']

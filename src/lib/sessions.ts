@@ -59,7 +59,8 @@ export async function createSessionCookie(secret: string, expiry: Date) {
         httpOnly: true,
         secure: true,
         expires: expiry,
-        sameSite: 'lax',
+        sameSite: 'strict',
         path: '/',
     })
+
 }

@@ -72,8 +72,6 @@ export async function register(state: AuthFormState, formData: FormData) {
     redirect("/dashboard");
 
     // TODO : Create Verification Email
-
-    // Third, enable realtime on the client?
 }
 
 // Login the User
@@ -104,6 +102,7 @@ export async function login(state: AuthFormState, formData: FormData) {
 
         // Call Appwrite to create a new user session
         session = await account.createEmailPasswordSession(email, password);
+
     } catch (error) {
         // If there was an error, return early
         if (error instanceof AppwriteException) {
@@ -120,10 +119,14 @@ export async function login(state: AuthFormState, formData: FormData) {
     // Create a session cookie
     const sessionSecret = session.secret;
     const expiresAt = new Date(session.expire);
-    createSessionCookie(sessionSecret, expiresAt);
+    await createSessionCookie(sessionSecret, expiresAt);
 
-    // Redirect the user
-    redirect('/dashboard');
+    // Redirect the user to the dashboard
+    const user = await getUser();
+
+    if(user) {
+        redirect('/dashboard')
+    }
 }
 
 // Logout the User

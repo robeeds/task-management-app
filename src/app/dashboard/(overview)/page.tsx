@@ -4,9 +4,9 @@
 import { TaskSchema } from "@/lib/definitions";
 import { getTasks } from "@/actions/tasks";
 import TaskCard from "@/test/task-card";
-import CreateButton from "@/test/create-button";
 
 export default async function Page() {
+
     const tasks: TaskSchema[] = await getTasks()
 
     return (

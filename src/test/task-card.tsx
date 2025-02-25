@@ -3,11 +3,33 @@
 
 // Imports
 import { TaskSchema } from "@/lib/definitions"
-import { useState } from "react"
+import { client } from "@/lib/appwrite"
+import { useState, useEffect } from "react"
 import CreateButton from "./create-button"
 
 export default function TaskCard({ initialTasks }: {initialTasks: TaskSchema[]}) {
     const [tasks, setTasks] = useState<TaskSchema[]>(initialTasks)
+
+    useEffect(() => {
+        const channel = (`databases.taskman.collections.task-list.documents`);
+
+        const unsubscribe = client.subscribe(channel, (response) => {
+            console.log(response.events)
+            const changedTask = response.payload as TaskSchema
+
+            if(response.events.includes('databases.*.collections.*.documents.*.create')) {
+                setTasks((prevTasks) => [changedTask, ...prevTasks])
+            }
+
+            if(response.events.includes('databases.*.collections.*.documents.*.delete')) {
+                setTasks((prevTasks) => prevTasks.filter((task) => task.$id !== changedTask.$id))
+            }
+
+        })
+
+        return() => unsubscribe()
+    }, [])
+
     return(
         <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
 

@@ -24,8 +24,6 @@ const databases = new Databases(client);
 // Create Task
 export async function createTask(state: TaskFormState, formData: FormData) {
 
-    console.log(formData.get('dueDate'))
-
     // Validate form fields
     const validatedFields = CreateTaskSchema.safeParse({
         title: formData.get('title'),
@@ -70,7 +68,7 @@ export async function createTask(state: TaskFormState, formData: FormData) {
         ]
     )
 
-   console.log(response);
+    console.log(response);
 }
 
 // Read Task -> Realtime?
@@ -93,7 +91,6 @@ export async function getTasks(): Promise<TaskSchema[]> {
         isCompleted: doc.isCompleted
     }))
     
-    console.log(tasks);
 
     return tasks;
 }
