@@ -44,7 +44,7 @@ export const CreateTaskSchema = z.object({
   description: z
     .string()
     .trim()
-    .nullable(),
+    .optional(),
   dueDate: z
     .string()
     .trim()
