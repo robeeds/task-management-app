@@ -3,15 +3,18 @@
 
 // Imports
 import { TaskSchema } from "@/lib/definitions"
-import { client } from "@/lib/appwrite"
+import client from "@/lib/appwrite"
 import { useState, useEffect } from "react"
 import CreateButton from "./create-button"
+
+const DATABASE = '67a113c40021c7fe3479'
+const COLLECTION = '67a113cc000fa69b928a'
 
 export default function TaskCard({ initialTasks }: {initialTasks: TaskSchema[]}) {
     const [tasks, setTasks] = useState<TaskSchema[]>(initialTasks)
 
     useEffect(() => {
-        const channel = (`databases.taskman.collections.task-list.documents`);
+        const channel = (`databases.${DATABASE}.collections.${COLLECTION}.documents`);
 
         const unsubscribe = client.subscribe(channel, (response) => {
             console.log(response.events)

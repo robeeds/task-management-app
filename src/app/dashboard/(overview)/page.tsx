@@ -6,7 +6,6 @@ import { getTasks } from "@/actions/tasks";
 import TaskCard from "@/test/task-card";
 
 export default async function Page() {
-
     const tasks: TaskSchema[] = await getTasks()
 
     return (

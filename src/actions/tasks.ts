@@ -4,14 +4,8 @@
 // Imports
 import { CreateTaskSchema, TaskFormState, TaskSchema } from "@/lib/definitions"
 import { Client, Databases, ID, Permission, Role } from "node-appwrite"
+import { ENDPOINT, PROJECT_ID, KEY, DATABASE_ID, COLLECTION_ID } from "@/lib/appwrite";
 import { getUser } from "./auth";
-
-// Initialize Variables
-const ENDPOINT =  process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT as string;
-const PROJECT_ID = process.env.NEXT_PUBLIC_APPWRITE_PROJECT as string;
-const KEY = process.env.NEXT_APPWRITE_KEY as string;
-const DATABASE_ID = process.env.NEXT_APPWRITE_DATABASE as string;
-const COLLECTION_ID = process.env.NEXT_APPWRITE_COLLECTION as string;
 
 // Call Appwrite to create a database client
 const client = new Client()
@@ -68,10 +62,10 @@ export async function createTask(state: TaskFormState, formData: FormData) {
         ]
     )
 
-    console.log(response);
+    console.log("tasks.ts createTask():", response);
 }
 
-// Read Task -> Realtime?
+// Fetch Tasks
 export async function getTasks(): Promise<TaskSchema[]> {
     
     // Call Appwrite to fetch documents
@@ -98,3 +92,5 @@ export async function getTasks(): Promise<TaskSchema[]> {
 // Update Task
 
 // Delete Task
+
+// Initialize Realtime Client

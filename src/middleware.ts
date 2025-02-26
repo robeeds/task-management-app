@@ -4,6 +4,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
+import { getUser } from "./actions/auth";
 
 const protectedRoutes = ['/dashboard']
 const publicRoutes = ['/login', '/register', '/']
@@ -20,9 +21,11 @@ export async function middleware(request: NextRequest) {
     const cookie = await nextCookies.get("user-session");
     
     // Get the current user session, if there is none, then delete cookie
+    const user = await getUser();
+    const userId = user?.$id
 
     // Redirect to /login if the user is not authenticated
-    if (isProtectedRoute && !cookie) {
+    if (isProtectedRoute && !userId && !cookie) {
         return NextResponse.redirect(new URL('/login', request.nextUrl))
     }
 
@@ -30,6 +33,7 @@ export async function middleware(request: NextRequest) {
     if (
         isPublicRoute &&
         cookie &&
+        user?.$id &&
         !request.nextUrl.pathname.startsWith('/dashboard')
     ) {
         return NextResponse.redirect(new URL('/dashboard', request.nextUrl))
